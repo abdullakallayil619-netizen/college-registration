@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>College Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .form-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    h2 {
+      text-align: center;
+      color: #2f3640;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #273c75;
+      color: white;
+      font-size: 16px;
+      margin-top: 15px;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #192a56;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Student Registration</h2>
+  <form name="submit-to-google-sheet">
+    <label>Name</label>
+    <input type="text" name="name" required>
+
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Phone Number</label>
+    <input type="tel" name="phone" required>
+
+    <label>Department</label>
+    <select name="department" required>
+      <option value="">Select</option>
+      <option>BCA</option>
+      <option>B.Tech CSE</option>
+      <option>AI</option>
+      <option>Cyber</option>
+    </select>
+
+    <button type="submit">Register</button>
+  </form>
+  <p id="msg"></p>
+</div>
+
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbymlrmO7x32c98bvoZnaVXsTTOB0G_nmZq7RNTYHZ87otuzs5S3AaEaUA5Yzj7713Om/exec';
+  const form = document.forms['submit-to-google-sheet'];
+  const msg = document.getElementById("msg");
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => {
+        msg.innerHTML = "✅ Registration successful!";
+        form.reset();
+      })
+      .catch(error => {
+        msg.innerHTML = "❌ Error! Please try again.";
+        console.error('Error!', error.message);
+      });
+  });
+</script>
+
+</body>
+</html>
